@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:18.7-bookworm
+    environment:
+      POSTGRES_DB: gophermart
+      POSTGRES_USER: gophermart
+      POSTGRES_PASSWORD: gophermart
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "gophermart", "-d", "gophermart"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+      start_period: 10s
+
+volumes:
+  postgres_data:
